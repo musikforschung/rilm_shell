@@ -6,6 +6,13 @@ red="`tput setaf 1`"
 sgr0="`tput sgr0`"
 cyan="`tput setaf 6`"
 
+cd marc2bibtex && git config pull.rebase false && git pull origin master
+cd ../pica2bibtex && git config pull.rebase false && git pull origin master
+cd ../rilm_shell && git config pull.rebase false && git pull origin master
+cd ../../lib/Catmandu && git config pull.rebase false && git pull origin master
+cd ../../rilm
+
+
 ##Abruf und Transformation der RILM-Daten
 ## Abfrage des aktuellen RILM-Stempels "JJJJ-MM-TT"
 read -p "${cyan}			Bitte den aktuellen RILM-Stempel in der Form JJJJ-MM-TT eingeben: ${sgr0}" Date
