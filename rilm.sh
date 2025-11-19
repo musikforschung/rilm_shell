@@ -6,12 +6,44 @@ red="`tput setaf 1`"
 sgr0="`tput sgr0`"
 cyan="`tput setaf 6`"
 
-cd marc2bibtex && git config pull.rebase false && git pull origin main &&
-cd ../pica2bibtex && git config pull.rebase false && git pull origin main &&
-cd ../rilm_shell && git config pull.rebase false && git pull origin main &&
-cd ../../lib/Catmandu/Exporter && git config pull.rebase false && git pull origin main &&
-cd ../../../rilm &&
+# Git-Synchronisation (https://github.com/musikforschung)
+REPOS=(
+"$HOME/rilm/marc2bibtex/"
+"$HOME/rilm/pica2bibtex/"
+"$HOME/rilm/rilm_shell/"
+"$HOME/lib/Catmandu/Exporter/"
+)
 
+echo "Prüfe auf Aktualisierungen..."
+
+for repo_path in "${REPOS[@]}"; do
+   if [ ! -d "$repo_path" ]; then
+      echo "Fehler: Verzeichnis nicht gefunden: $repo_path!" 
+	     continue
+   fi
+
+   cd "$repo_path" || { echo  "Fehler: Konnte nicht in $repo_path wechseln!"; continue; }
+   git fetch &> /dev/null
+   if [ $? -ne 0 ]; then
+      echo "Fehler beim Abrufen der Remote_Daten."
+      continue
+   fi
+
+   STATUS=$(git status)
+   if [[ $STATUS == *"Ihr Branch ist auf demselben Stand wie"* ]]; then
+      echo "$repo_path ist aktuell"
+   elif [[ $STATUS == *"git pull"* ]]; then
+      echo "Aktualisierungen für $repo_path gefunden"
+      git config pull.rebase false && git pull &> /dev/null
+      echo "$repo_path wurde aktualisiert"
+   else
+      echo "Bitte Aktualisierungen prüfen."
+      echo "$STATUS"
+   fi
+done
+echo "------------------------------------------------------"
+echo "Synchronisierung abgeschlossen.
+"
 
 ##Abruf und Transformation der RILM-Daten
 ## Abfrage des aktuellen RILM-Stempels "JJJJ-MM-TT"
