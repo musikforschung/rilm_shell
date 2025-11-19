@@ -136,7 +136,8 @@ Der BMS-Abzug im Format Bibtex für RILM befindet sich in der Datei ${green}dmpb
    rm ../dmpbms_${Date}.pp
 else
    echo "
-Transformation abgeschlossen.
+   ------------------------------------------------------"
+   echo "Transformation abgeschlossen.
 Der BMS-Abzug im Format Bibtex für RILM befindet sich in der Datei ${green}dmpbms_${Date}.btx${sgr0}.
 " 
 fi
@@ -249,7 +250,8 @@ if [ -f ../fehlermeldung_oenb_${DateOENB}.csv ]; then
    rm ../oenb_${DateOENB}.mrk
 else
    echo "
-Transformation abgeschlossen."
+   ------------------------------------------------------"
+   echo "Transformation abgeschlossen."
 fi
 echo "
 Die ÖNB-Daten im Format Bibtex für RILM befinden sich in der Datei ${green}dmpbms_${Date}.btx${sgr0}." 
@@ -272,5 +274,6 @@ Statistik der transformierten ÖNB-Daten:
 "
 catmandu convert BibTeX to Stat --fix ./marc2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < dmpbms_${Date}.btx 2>/dev/null | tee ./marc2bibtex/statistics/rilm_export_statistik_${DateOENB}.csv &&
 echo "
-Transformation der BMS-Daten und der ÖNB-Daten für RILM beendet.
+------------------------------------------------------"
+echo "Transformation der BMS-Daten und der ÖNB-Daten für RILM beendet.
 "
