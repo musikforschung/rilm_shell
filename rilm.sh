@@ -6,11 +6,11 @@ red="`tput setaf 1`"
 sgr0="`tput sgr0`"
 cyan="`tput setaf 6`"
 
-cd marc2bibtex && git config pull.rebase false && git pull origin main
-cd ../pica2bibtex && git config pull.rebase false && git pull origin main
-cd ../rilm_shell && git config pull.rebase false && git pull origin main
-cd ../../lib/Catmandu/Exporter && git config pull.rebase false && git pull origin main
-cd ../../../rilm
+cd marc2bibtex && git config pull.rebase false && git pull origin main &&
+cd ../pica2bibtex && git config pull.rebase false && git pull origin main &&
+cd ../rilm_shell && git config pull.rebase false && git pull origin main &&
+cd ../../lib/Catmandu/Exporter && git config pull.rebase false && git pull origin main &&
+cd ../../../rilm &&
 
 
 ##Abruf und Transformation der RILM-Daten
