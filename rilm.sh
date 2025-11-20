@@ -1,6 +1,7 @@
 #rilm.sh
 #!/bin/bash -e
 
+
 green="`tput setaf 2`"
 red="`tput setaf 1`"
 sgr0="`tput sgr0`"
