@@ -19,10 +19,12 @@ The German editorial office of the Répertoire International de Littérature Mus
 * [Catmandu::BibTeX](https://metacpan.org/pod/Catmandu::BibTeX)
 * [BibTeX.pm](https://github.com/musikforschung/Exporter/blob/main/BibTeX.pm)
 
-# Required fixes
+# Required fixes and dictionaries
 
-* [pica2bibtex](https://github.com/musikforschung/pica2bibtex)
-* [marc2bibtex](https://github.com/musikforschung/marc2bibtex)
+* [pica2bibtex_fixes](https://github.com/musikforschung/pica2bibtex/fix)
+* [marc2bibtex_fixes](https://github.com/musikforschung/marc2bibtex/fix)
+* [pica2bibtex_dictionaries](https://github.com/musikforschung/pica2bibtex/dictionary)
+* [marc2bibtex_dictionaries](https://github.com/musikforschung/marc2bibtex/dictionary)
 
 # Authors
 
@@ -55,10 +57,12 @@ Am Staatlichen Institut für Musikforschung (SIM) befindet sich die deutsche Red
 * [Catmandu::BibTeX](https://metacpan.org/pod/Catmandu::BibTeX)
 * [BibTeX.pm](https://github.com/musikforschung/Exporter/blob/main/BibTeX.pm)
 
-# Erforderliche fixes
+# Erforderliche fixes und dictionaries
 
-* [pica2bibtex](https://github.com/musikforschung/pica2bibtex)
-* [marc2bibtex](https://github.com/musikforschung/marc2bibtex)
+* [pica2bibtex_fixes](https://github.com/musikforschung/pica2bibtex/fix)
+* [marc2bibtex_fixes](https://github.com/musikforschung/marc2bibtex/fix)
+* [pica2bibtex_dictionaries](https://github.com/musikforschung/pica2bibtex/dictionary)
+* [marc2bibtex_dictionaries](https://github.com/musikforschung/marc2bibtex/dictionary)
 
 # Autoren
 
