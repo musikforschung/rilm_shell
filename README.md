@@ -57,8 +57,8 @@ Am Staatlichen Institut für Musikforschung (SIM) befindet sich die deutsche Red
 
 # Erforderliche fixes
 
-*[pica2bibtex](https://github.com/musikforschung/pica2bibtex)
-*[marc2bibtex](https://github.com/musikforschung/marc2bibtex)
+* [pica2bibtex](https://github.com/musikforschung/pica2bibtex)
+* [marc2bibtex](https://github.com/musikforschung/marc2bibtex)
 
 # Autoren
 
