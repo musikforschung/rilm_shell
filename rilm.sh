@@ -1,7 +1,6 @@
 #rilm.sh
 #!/bin/bash -e
 
-
 green="`tput setaf 2`"
 red="`tput setaf 1`"
 sgr0="`tput sgr0`"
@@ -26,9 +25,9 @@ for repo_path in "${REPOS[@]}"; do
    cd "$repo_path" || { echo  "Fehler: Konnte nicht in $repo_path wechseln!"; continue; }
 
    STATUS=$(git status)
-   if [[ $STATUS == *"Ihr Branch ist auf demselben Stand wie"* ]]; then
+   if [[ $STATUS =~ "Ihr Branch ist auf demselben Stand wie" ]]; then
       echo "$repo_path ist aktuell"
-   elif [[ $STATUS == *"git pull"* ]]; then
+   elif [[ $STATUS =~ "git pull" ]]; then
       echo "Aktualisierungen für $repo_path gefunden"
       git config pull.rebase false && git pull &> /dev/null
       echo "$repo_path wurde aktualisiert"
