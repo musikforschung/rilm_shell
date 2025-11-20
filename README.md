@@ -21,8 +21,8 @@ The German editorial office of the Répertoire International de Littérature Mus
 
 # Required fixes
 
-*[pica2bibtex](https://github.com/musikforschung/pica2bibtex)
-*[marc2bibtex](https://github.com/musikforschung/marc2bibtex)
+* [pica2bibtex](https://github.com/musikforschung/pica2bibtex)
+* [marc2bibtex](https://github.com/musikforschung/marc2bibtex)
 
 # Authors
 
