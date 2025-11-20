@@ -21,10 +21,10 @@ The German editorial office of the Répertoire International de Littérature Mus
 
 # Required fixes and dictionaries
 
-* [pica2bibtex_fixes](https://github.com/musikforschung/pica2bibtex/fix)
-* [marc2bibtex_fixes](https://github.com/musikforschung/marc2bibtex/fix)
-* [pica2bibtex_dictionaries](https://github.com/musikforschung/pica2bibtex/dictionary)
-* [marc2bibtex_dictionaries](https://github.com/musikforschung/marc2bibtex/dictionary)
+* [pica2bibtex_fixes](https://github.com/musikforschung/pica2bibtex/blob/main/fix)
+* [marc2bibtex_fixes](https://github.com/musikforschung/marc2bibtex/blob/main/fix)
+* [pica2bibtex_dictionaries](https://github.com/musikforschung/pica2bibtex/blob/main/dictionary)
+* [marc2bibtex_dictionaries](https://github.com/musikforschung/marc2bibtex/blob/main/dictionary)
 
 # Authors
 
@@ -48,7 +48,7 @@ Am Staatlichen Institut für Musikforschung (SIM) befindet sich die deutsche Red
 
 # Beschreibung der Dateien
 
-[rilm.sh](https://github.com/musikforschung/rilm_shell/blob/main/rilm.sh) Bash-Skript zur sukzessiven Ausführung von [pica2bibtex](https://github.com/musikforschung/pica2bibtex) und [marc2bibtex](https://github.com/musikforschung/marc2bibtex) für die Transformation von PICA-Daten aus BMS online und von MARC-Daten der Österreichischen Nationalbibliothek für RILM und ihre Zusammenführung in eine BibTeX-Datei. 
+[rilm.sh](https://github.com/musikforschung/rilm_shell/blob/main/rilm.sh) Bash-Skript zur sukzessiven Ausführung von [pica2bibtex](https://github.com/musikforschung/pica2bibtex) und [marc2bibtex](https://github.com/musikforschung/marc2bibtex) für die Transformation von PICA-Daten aus BMS online und von MARC-Daten der Österreichischen Nationalbibliothek für RILM sowie ihre Zusammenführung in eine BibTeX-Datei. 
 
 # Erforderliche Catmandu-Module
 
@@ -59,10 +59,10 @@ Am Staatlichen Institut für Musikforschung (SIM) befindet sich die deutsche Red
 
 # Erforderliche fixes und dictionaries
 
-* [pica2bibtex_fixes](https://github.com/musikforschung/pica2bibtex/fix)
-* [marc2bibtex_fixes](https://github.com/musikforschung/marc2bibtex/fix)
-* [pica2bibtex_dictionaries](https://github.com/musikforschung/pica2bibtex/dictionary)
-* [marc2bibtex_dictionaries](https://github.com/musikforschung/marc2bibtex/dictionary)
+* [pica2bibtex_fixes](https://github.com/musikforschung/pica2bibtex/blob/main/fix)
+* [marc2bibtex_fixes](https://github.com/musikforschung/marc2bibtex/blob/main/fix)
+* [pica2bibtex_dictionaries](https://github.com/musikforschung/pica2bibtex/blob/main/dictionary)
+* [marc2bibtex_dictionaries](https://github.com/musikforschung/marc2bibtex/blob/main/dictionary)
 
 # Autoren
 
