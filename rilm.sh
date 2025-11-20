@@ -23,11 +23,6 @@ for repo_path in "${REPOS[@]}"; do
    fi
 
    cd "$repo_path" || { echo  "Fehler: Konnte nicht in $repo_path wechseln!"; continue; }
-   git fetch &> /dev/null
-   if [ $? -ne 0 ]; then
-      echo "Fehler beim Abrufen der Remote_Daten."
-      continue
-   fi
 
    STATUS=$(git status)
    if [[ $STATUS == *"Ihr Branch ist auf demselben Stand wie"* ]]; then
