@@ -44,7 +44,7 @@ done
 echo "------------------------------------------------------"
 echo "Synchronisierung abgeschlossen.
 "
-cd $HOME/rilm
+#cd $HOME/rilm
 
 ##Abruf und Transformation der RILM-Daten
 ## Abfrage des aktuellen RILM-Stempels "JJJJ-MM-TT"
