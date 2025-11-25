@@ -61,7 +61,7 @@ sed -i '/^nohup:/d' $HOME/rilm/dmpbms_${Date}.pp &&
 
 # Alte Dateien Löschen oder Verschieben.
 if [ -f $HOME/rilm/dmpbms*.btx ]; then
-   mv dmpbms*.btx $HOME/rilm/ablage/
+   mv $HOME/rilm/dmpbms*.btx $HOME/rilm/ablage/
 fi &&
 
 if [ -f $HOME/rilm/oenb*.mrk ]; then
@@ -71,11 +71,6 @@ fi &&
 if [ -f $HOME/rilm/marc2bibtex/data/oenb_[0-9]*.mrk ]; then
    mv $HOME/rilm/marc2bibtex/data/oenb_[0-9]*.mrk $HOME/rilm/marc2bibtex/ablage/
 fi &&
-
-if [ -f $HOME/rilm/pica2bibtex/dmpbms*.pp ]; then
-   rm $HOME/rilm/pica2bibtex/dmpbms*.pp
-fi &&
-
 
 # Kopiere PICA_Datei in Arbeitsverzeichnis
 cp -f $HOME/rilm/dmpbms_${Date}.pp $HOME/rilm/pica2bibtex/ &&
