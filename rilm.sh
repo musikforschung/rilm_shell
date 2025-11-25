@@ -57,34 +57,34 @@ echo "
 Transformation der BMS-Daten nach BibTeX gestartet."
 
 # Löscht überflüssige Einträge im PICA-Abzug. 
-sed -i '/^nohup:/d' dmpbms_${Date}.pp &&
+sed -i '/^nohup:/d' $HOME/rilm/dmpbms_${Date}.pp &&
 
 # Alte Dateien Löschen oder Verschieben.
-if [ -f dmpbms*.btx ]; then
-   mv dmpbms*.btx ./ablage/
+if [ -f $HOME/rilm/dmpbms*.btx ]; then
+   mv dmpbms*.btx $HOME/rilm/ablage/
 fi &&
 
-if [ -f oenb*.mrk ]; then
-   rm oenb*.mrk
+if [ -f $HOME/rilm/oenb*.mrk ]; then
+   rm $HOME/rilm/oenb*.mrk
 fi &&
 
-if [ -f ./marc2bibtex/data/oenb_[0-9]*.mrk ]; then
-   mv ./marc2bibtex/data/oenb_[0-9]*.mrk ./marc2bibtex/ablage/
+if [ -f $HOME/rilm/marc2bibtex/data/oenb_[0-9]*.mrk ]; then
+   mv $HOME/rilm/marc2bibtex/data/oenb_[0-9]*.mrk $HOME/rilm/marc2bibtex/ablage/
 fi &&
 
-if [ -f ./pica2bibtex/dmpbms*.pp ]; then
-   rm ./pica2bibtex/dmpbms*.pp
+if [ -f $HOME/rilm/pica2bibtex/dmpbms*.pp ]; then
+   rm $HOME/rilm/pica2bibtex/dmpbms*.pp
 fi &&
 
 
 # Kopiere PICA_Datei in Arbeitsverzeichnis
-cp -f dmpbms_${Date}.pp ./pica2bibtex/ &&
+cp -f $HOME/rilm/dmpbms_${Date}.pp $HOME/rilm/pica2bibtex/ &&
 
 # Wechsel in Arbeitsverzeichnis
-cd pica2bibtex &&
+#cd $HOME/rilm/pica2bibtex &&
 
 # PICA-Datei auf eventuell fehlende Formschlagwörter (Festschrift/Konferenzschrift) prüfen
-catmandu convert PICA --type plain to CSV --fields Festschrift,Konferenzschrift,PPN --fix ./fix/formschlagwort_bms.fix < dmpbms_${Date}.pp > ../formschlagwort_bms.csv &&
+catmandu convert PICA --type plain to CSV --fields Festschrift,Konferenzschrift,PPN --fix $HOME/rilm/pica2bibtex/fix/formschlagwort_bms.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/pica2bibtex/formschlagwort_bms.csv &&
 
 if [ -f ../formschlagwort_bms.csv ]; then
    echo "${cyan}			Bitte die Datei ${green}formschlagwort_bms.csv${cyan} prüfen und bei Bedarf in der Datei ${green}dmpbms_${Date}.pp${cyan} Formschlagwörter ergänzen!!!${sgr0}"
@@ -99,29 +99,29 @@ done
 echo "Transformation der BMS-Daten wird fortgesetzt."
 
 # Kopiere aktualisierte PICA_Datei in Arbeitsverzeichnis
-cp -f ../dmpbms_${Date}.pp . &&
+cp -f $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp . &&
 
 # Lösche formschalgwort_bms.csv
-if [ -f ../formschlagwort_bms.csv ]; then
-   rm ../formschlagwort_bms.csv
+if [ -f $HOME/rilm/formschlagwort_bms.csv ]; then
+   rm $HOME/rilm/formschlagwort_bms.csv
 fi &&
 
 # CSV von allen HAs ihrer Materialart und ihren PPNs erstellen.
-catmandu convert PICA --type plain to CSV --fix ./fix/type_ha.fix --fields ppn,type < dmpbms_${Date}.pp > ./data/type_ha.csv &&
+catmandu convert PICA --type plain to CSV --fix $HOME/rilm/pica2bibtex/fix/type_ha.fix --fields ppn,type < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/pica2bibtex/data/type_ha.csv &&
 # CSV_Datei der HAs ihrer PPN und ihrer zugehörigen Materialart erstellen. Wird für die Bestimmung des types der Aufsätze benötigt.
-catmandu convert PICA --type plain to CSV --fix ./fix/type_as.fix --fields ppn,type < dmpbms_${Date}.pp > ./data/type_as.csv &&
+catmandu convert PICA --type plain to CSV --fix $HOME/rilm/pica2bibtex/fix/type_as.fix --fields ppn,type < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/pica2bibtex/data/type_as.csv &&
 # CSV_Datei der HAs ihrer PPN und ihrer zugehörigen Materialart erstellen. Wird für die Bestimmung des types der Rezensionen benötigt.
-catmandu convert PICA --type plain to CSV --fix ./fix/type_re.fix --fields ppn,type < dmpbms_${Date}.pp > ./data/type_re.csv &&
+catmandu convert PICA --type plain to CSV --fix $HOME/rilm/pica2bibtex/fix/type_re.fix --fields ppn,type < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/pica2bibtex/data/type_re.csv &&
 # Ländercodes der HAs für die Übergabe an die Aufsätze einsammeln
-catmandu convert PICA --type plain to CSV --fix ./fix/countrycode.fix < dmpbms_${Date}.pp > ./data/countrycodelist.csv &&
+catmandu convert PICA --type plain to CSV --fix $HOME/rilm/pica2bibtex/fix/countrycode.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/pica2bibtex/data/countrycodelist.csv &&
 
 # Transformation ausführen.
-catmandu -I ../../lib convert PICA --type plain to BibTeX --fix ./fix/pica2bibtex.fix --fix ./fix/replace.fix < dmpbms_${Date}.pp 1> ../dmpbms_${Date}.btx 2>/dev/null &&
+catmandu -I $HOME/lib convert PICA --type plain to BibTeX --fix $HOME/rilm/pica2bibtex/fix/pica2bibtex.fix --fix $HOME/rilm/pica2bibtex/fix/replace.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp 1> $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null &&
 
 # BTX-Datei auf mögliche Fehler prüfen
-catmandu convert BibTeX to CSV --fields Type,Country,Note,Pages,Number,Volume,Year,Abstract,Abstractor,Series,Crossref,Ausschluss,PPN --fix ./fix/fehlermeldung_bms.fix < ../dmpbms_${Date}.btx > ../fehlermeldung_bms_${Date}.csv &&
+catmandu convert BibTeX to CSV --fields Type,Country,Note,Pages,Number,Volume,Year,Abstract,Abstractor,Series,Crossref,Ausschluss,PPN --fix $HOME/rilm/pica2bibtex/fix/fehlermeldung_bms.fix < $HOME/rilm/dmpbms_${Date}.btx > $HOME/rilm/fehlermeldung_bms_${Date}.csv &&
 
-if [ -f ../fehlermeldung_bms_${Date}.csv ]; then
+if [ -f $HOME/rilm/fehlermeldung_bms_${Date}.csv ]; then
    echo "
 Der BMS-Abzug im Format Bibtex für RILM befindet sich in der Datei ${green}dmpbms_${Date}.btx${sgr0}.
    
@@ -133,8 +133,8 @@ Der BMS-Abzug im Format Bibtex für RILM befindet sich in der Datei ${green}dmpb
      read -p "			Mit \"${green}y${cyan}\" bestätigen, wenn die Prüfung beendet und alle Änderungen abgespeichert sind: " Bestaetigung
    done 
    echo "Transformation der BMS-Daten erfolgreich abgeschlossen."
-   mv ../fehlermeldung_bms_${Date}.csv ./fehlermeldungen/
-   rm ../dmpbms_${Date}.pp
+   mv $HOME/rilm/fehlermeldung_bms_${Date}.csv ./fehlermeldungen/
+   rm $HOME/rilm/dmpbms_${Date}.pp
 else
    echo "
    ------------------------------------------------------"
@@ -154,9 +154,9 @@ if [ $Bestaetigung == n ];
    then echo "Transformation beendet"
         echo "Statistik der transformierten BMS-Daten:
 "
-        cd rilm
+#        cd $HOME/rilm
 		# Erstelle Export-Statistik
-        catmandu convert BibTeX to Stat --fix ./pica2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < dmpbms_${Date}.btx 2>/dev/null | tee ./pica2bibtex/statistics/rilm_export_statistik_${Date}.csv
+        catmandu convert BibTeX to Stat --fix $HOME/rilm/pica2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/pica2bibtex/statistics/rilm_export_statistik_${Date}.csv
         exit 0
 fi
 if [ $Bestaetigung == y ];
