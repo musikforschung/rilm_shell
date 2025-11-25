@@ -44,7 +44,7 @@ done
 echo "------------------------------------------------------"
 echo "Synchronisierung abgeschlossen.
 "
-#cd $HOME/rilm
+cd $HOME/rilm
 
 ##Abruf und Transformation der RILM-Daten
 ## Abfrage des aktuellen RILM-Stempels "JJJJ-MM-TT"
@@ -81,12 +81,12 @@ fi &&
 cp -f $HOME/rilm/dmpbms_${Date}.pp $HOME/rilm/pica2bibtex/ &&
 
 # Wechsel in Arbeitsverzeichnis
-#cd $HOME/rilm/pica2bibtex &&
+cd $HOME/rilm/pica2bibtex &&
 
 # PICA-Datei auf eventuell fehlende Formschlagwörter (Festschrift/Konferenzschrift) prüfen
-catmandu convert PICA --type plain to CSV --fields Festschrift,Konferenzschrift,PPN --fix $HOME/rilm/pica2bibtex/fix/formschlagwort_bms.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/pica2bibtex/formschlagwort_bms.csv &&
+catmandu convert PICA --type plain to CSV --fields Festschrift,Konferenzschrift,PPN --fix $HOME/rilm/pica2bibtex/fix/formschlagwort_bms.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp > $HOME/rilm/formschlagwort_bms.csv &&
 
-if [ -f ../formschlagwort_bms.csv ]; then
+if [ -f $HOME/rilm/formschlagwort_bms.csv ]; then
    echo "${cyan}			Bitte die Datei ${green}formschlagwort_bms.csv${cyan} prüfen und bei Bedarf in der Datei ${green}dmpbms_${Date}.pp${cyan} Formschlagwörter ergänzen!!!${sgr0}"
 fi
 
@@ -99,7 +99,7 @@ done
 echo "Transformation der BMS-Daten wird fortgesetzt."
 
 # Kopiere aktualisierte PICA_Datei in Arbeitsverzeichnis
-cp -f $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp . &&
+cp -f $HOME/rilm/dmpbms_${Date}.pp $HOME/rilm/pica2bibtex/ &&
 
 # Lösche formschalgwort_bms.csv
 if [ -f $HOME/rilm/formschlagwort_bms.csv ]; then
@@ -154,7 +154,7 @@ if [ $Bestaetigung == n ];
    then echo "Transformation beendet"
         echo "Statistik der transformierten BMS-Daten:
 "
-#        cd $HOME/rilm
+        cd $HOME/rilm
 		# Erstelle Export-Statistik
         catmandu convert BibTeX to Stat --fix $HOME/rilm/pica2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/pica2bibtex/statistics/rilm_export_statistik_${Date}.csv
         exit 0
@@ -181,28 +181,28 @@ if [ $Bestaetigung == y ];
    echo "Zeitstempel der ÖNB-Daten:" ${green}${DateOENB}${sgr0}
 fi
 
-cd ../marc2bibtex &&
+cd $HOME/rilm/marc2bibtex/ &&
 
 # Weitergabe des aktuellen Stempels in die entsprechenden Fixes per $Date
-sed -i "s/alma.local_field_980=RILM[0-9]\+/alma.local_field_980=RILM\l$DateOENB/g" ./fix/sru_sort_request.fix &&
+sed -i "s/alma.local_field_980=RILM[0-9]\+/alma.local_field_980=RILM\l$DateOENB/g" $HOME/rilm/marc2bibtex/fix/sru_sort_request.fix &&
 
 #Abrufen der Identifier der Hauptaufnahmen aller mit dem RILM-Stempel gekennzeichneten Datensätze
-catmandu convert SRU --base https://obv-at-oenb.alma.exlibrisgroup.com/view/sru/43ACC_ONB --recordSchema marcxml --parser marcxml --query alma.local_field_980=RILM${DateOENB} to CSV --fix ./fix/sru_request.fix --fields ac_number > ./data/oenb.csv &&
+catmandu convert SRU --base https://obv-at-oenb.alma.exlibrisgroup.com/view/sru/43ACC_ONB --recordSchema marcxml --parser marcxml --query alma.local_field_980=RILM${DateOENB} to CSV --fix $HOME/rilm/marc2bibtex/fix/sru_request.fix --fields ac_number > $HOME/rilm/marc2bibtex/data/oenb.csv &&
 
 # sortiert die Einträge und entfernt Dubletten
-grep -P '\d{5,}' ./data/oenb.csv | sort | uniq > ./data/oenb_sort.csv &&
+grep -P '\d{5,}' $HOME/rilm/marc2bibtex/data/oenb.csv | sort | uniq > $HOME/rilm/marc2bibtex/data/oenb_sort.csv &&
 #fügt den Spaltennamen "ac_number" ein
-sed -i '1s/^/ac_number\n/' ./data/oenb_sort.csv &&
+sed -i '1s/^/ac_number\n/' $HOME/rilm/marc2bibtex/data/oenb_sort.csv &&
 
 # Abruf der vollständigen Aufsätze und ihrer Hauptaufnahmen
-catmandu convert CSV to Null --fix ./fix/sru_sort_request.fix < ./data/oenb_sort.csv &&
+catmandu convert CSV to Null --fix $HOME/rilm/marc2bibtex/fix/sru_sort_request.fix < $HOME/rilm/marc2bibtex/data/oenb_sort.csv &&
 # Zusammenführung der Daten
-cat ./data/oenb_coll.mrk ./data/oenb_ha.mrk > ../oenb_${DateOENB}.mrk &&
+cat $HOME/rilm/marc2bibtex/data/oenb_coll.mrk $HOME/rilm/marc2bibtex/data/oenb_ha.mrk > $HOME/rilm/oenb_${DateOENB}.mrk &&
 
 # BibTeX-Datei auf eventuell fehlende Formschlagwörter (Festschrift/Konferenzschrift) prüfen
-catmandu convert MARC --type MARCMaker to CSV --fields Konferenzschrift,Festschrift,Dissertation,Titelzusatz,ID --fix ./fix/formschlagwort_oenb.fix < ../oenb_${DateOENB}.mrk > ../formschlagwort_oenb.csv
+catmandu convert MARC --type MARCMaker to CSV --fields Konferenzschrift,Festschrift,Dissertation,Titelzusatz,ID --fix $HOME/rilm/marc2bibtex/fix/formschlagwort_oenb.fix < $HOME/rilm/oenb_${DateOENB}.mrk > $HOME/rilm/formschlagwort_oenb.csv
 
-if [ -f ../formschlagwort_oenb.csv ]; then
+if [ -f $HOME/rilm/formschlagwort_oenb.csv ]; then
    echo "
 			${cyan}Bitte die Datei ${green}formschlagwort_oenb.csv${cyan} prüfen und in der Datei ${green}oenb_${DateOENB}.mrk${cyan} bei Bedarf Formschlagwörter in den Hauptaufnahmen ergänzen.
 			Gegebenenfalls vor den Titelzusätzen in Feld 245 \"\$b\" einfügen.
@@ -218,27 +218,27 @@ done
 echo "Transformation der ÖNB-Daten nach BibTeX wird fortgesetzt."
 
 # Kopiere aktualisierte PICA_Datei in Arbeitsverzeichnis
-cp ../oenb_${DateOENB}.mrk ./data/ &&
+cp $HOME/rilm/oenb_${DateOENB}.mrk $HOME/rilm/marc2bibtex/data/ &&
 
 # Lösche formschlagwort_oenb.csv
-if [ -f ../formschlagwort_oenb.csv ]; then
-   rm ../formschlagwort_oenb.csv
+if [ -f $HOME/rilm/formschlagwort_oenb.csv ]; then
+   rm $HOME/rilm/formschlagwort_oenb.csv
 fi &&
 
 # Liste von ACNummer und type der Hauptaufnahme erstellen
-catmandu convert MARC --type MARCMaker to CSV --fix ./fix/type.fix --fields ACNumber,type < ./data/oenb_${DateOENB}.mrk > ./data/type.csv &&
+catmandu convert MARC --type MARCMaker to CSV --fix $HOME/rilm/marc2bibtex/fix/type.fix --fields ACNumber,type < $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk > $HOME/rilm/marc2bibtex/data/type.csv &&
 # Liste von ACNummer und Ländercode der Hauptaufnahmen erstellen
-catmandu convert MARC --type MARCMaker to CSV --fix ./fix/countrycode.fix < ./data/oenb_${DateOENB}.mrk > ./data/countrycodelist.csv &&
+catmandu convert MARC --type MARCMaker to CSV --fix $HOME/rilm/marc2bibtex/fix/countrycode.fix < $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk > $HOME/rilm/marc2bibtex/data/countrycodelist.csv &&
 # Liste von ACNummer und Volume der Hauptaufnahmen erstellen
-catmandu convert MARC --type MARCMaker to CSV --fix ./fix/volume.fix --fields ACNumber,volume < ./data/oenb_${DateOENB}.mrk > ./data/volume.csv &&
+catmandu convert MARC --type MARCMaker to CSV --fix $HOME/rilm/marc2bibtex/fix/volume.fix --fields ACNumber,volume < $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk > $HOME/rilm/marc2bibtex/data/volume.csv &&
 
 # Transformation der OENB-Daten von MARC nach BibTeX
-catmandu -I ../../lib convert MARC --type MARCMaker to BibTeX --fix ./fix/marc2bibtex.fix --fix ./fix/replace.fix < ./data/oenb_${DateOENB}.mrk >> ../dmpbms_${Date}.btx &&
+catmandu -I $HOME/lib convert MARC --type MARCMaker to BibTeX --fix $HOME/rilm/marc2bibtex/fix/marc2bibtex.fix --fix $HOME/rilm/marc2bibtex/fix/replace.fix < $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk >> $HOME/rilm/dmpbms_${Date}.btx &&
 
 # Prüfung der BibTeX-Daten und Ausgabe einer Fehlerdatei
-catmandu convert BibTeX to CSV --fields Type,Country,Note,Pages,Number,Volume,Year,Abstract,Abstractor,Series,Crossref,Ausschluss,PPN --fix ./fix/fehlermeldung_oenb.fix < ../dmpbms_${Date}.btx > ../fehlermeldung_oenb_${DateOENB}.csv &&
+catmandu convert BibTeX to CSV --fields Type,Country,Note,Pages,Number,Volume,Year,Abstract,Abstractor,Series,Crossref,Ausschluss,PPN --fix $HOME/rilm/marc2bibtex/fix/fehlermeldung_oenb.fix < $HOME/rilm/dmpbms_${Date}.btx > $HOME/rilm/fehlermeldung_oenb_${DateOENB}.csv &&
 
-if [ -f ../fehlermeldung_oenb_${DateOENB}.csv ]; then
+if [ -f $HOME/rilm/fehlermeldung_oenb_${DateOENB}.csv ]; then
    echo "${cyan}			Bitte die Datei ${green}fehlermeldung_oenb_${DateOENB}.csv${cyan} prüfen und bei Bedarf die Daten in dmpbms_${Date}.btx anpassen!!!${sgr0}"
    read -p "${cyan}			Mit \"${green}y${cyan}\" bestätigen, wenn die Prüfung beendet und alle Änderungen abgespeichert sind: ${sgr0}" Bestaetigung
    while [[ ! "$Bestaetigung" == y ]]; do
@@ -246,9 +246,9 @@ if [ -f ../fehlermeldung_oenb_${DateOENB}.csv ]; then
      read -p "${cyan}			Bitte mit \"${green}y${cyan}\" bestätigen, wenn die Datei oenb_${DateOENB}.mrk geschlossen ist und die Transformation fortgeführt werden kann: ${sgr0}" Bestaetigung
    done 
    echo "Transformation der ÖNB-Daten nach BibTeX wird fortgesetzt."
-   mv ../fehlermeldung_oenb*.csv ./fehlermeldungen/
-   mv ./data/oenb_${DateOENB}.mrk ./ablage/
-   rm ../oenb_${DateOENB}.mrk
+   mv $HOME/rilm/fehlermeldung_oenb*.csv $HOME/rilm/marc2bibtex/fehlermeldungen/
+   mv $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk $HOME/rilm/marc2bibtex/ablage/
+   rm $HOME/rilm/oenb_${DateOENB}.mrk
 else
    echo "
    ------------------------------------------------------"
@@ -263,9 +263,9 @@ sleep 3s
 echo "
 Statistik der transformierten BMS-Daten:
 "
-cd .. &&
+cd $HOME/rilm/ &&
 
-catmandu convert BibTeX to Stat --fix ./pica2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < dmpbms_${Date}.btx 2>/dev/null | tee ./pica2bibtex/statistics/rilm_export_statistik_${Date}.csv &&
+catmandu convert BibTeX to Stat --fix $HOME/rilm/pica2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/pica2bibtex/statistics/rilm_export_statistik_${Date}.csv &&
 
 sleep 3s
 
@@ -273,7 +273,7 @@ sleep 3s
 echo "
 Statistik der transformierten ÖNB-Daten:
 "
-catmandu convert BibTeX to Stat --fix ./marc2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < dmpbms_${Date}.btx 2>/dev/null | tee ./marc2bibtex/statistics/rilm_export_statistik_${DateOENB}.csv &&
+catmandu convert BibTeX to Stat --fix $HOME/rilm/marc2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/marc2bibtex/statistics/rilm_export_statistik_${DateOENB}.csv &&
 echo "
 ------------------------------------------------------"
 echo "Transformation der BMS-Daten und der ÖNB-Daten für RILM beendet.
