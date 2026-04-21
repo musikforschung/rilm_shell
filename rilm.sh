@@ -1,4 +1,3 @@
-#rilm.sh
 #!/bin/bash -e
 
 green="`tput setaf 2`"
@@ -111,6 +110,25 @@ catmandu convert PICA --type plain to CSV --fix $HOME/rilm/pica2bibtex/fix/count
 
 # Transformation ausführen.
 catmandu -I $HOME/lib convert PICA --type plain to BibTeX --fix $HOME/rilm/pica2bibtex/fix/pica2bibtex.fix --fix $HOME/rilm/pica2bibtex/fix/replace.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp 1> $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null &&
+
+# entry types in RILM tags ändern
+TARGET_FILE="$HOME/rilm/pica2bibtex/dmpbms_${Date}.btx"
+
+sed -i -e "
+    s/^@b[cegs]{/@collection{/;
+    s/^@bf{/@book{/;
+    s/^@bm{/@book{/;
+    s/^@bp{/@periodical{/;
+    s/^@bt{/@book{/;
+    s/^@dd{/@dissertation{/;
+    s/^@dm{/@thesis{/;
+    s/^@er{/@electronicres{/;
+    s/^@mp{/@film{/;
+    s/^@mr{/@audio{/;
+    s/^@r[abcdefprstvx]{/@review{/;
+	s/^@a[bcdegs]{/@incollection{/;
+	s/^@ap{/@article{/
+" "$TARGET_FILE"
 
 # BTX-Datei auf mögliche Fehler prüfen
 catmandu convert BibTeX to CSV --fields Type,Country,Note,Pages,Number,Volume,Year,Abstract,Abstractor,Series,Crossref,Ausschluss,PPN --fix $HOME/rilm/pica2bibtex/fix/fehlermeldung_bms.fix < $HOME/rilm/dmpbms_${Date}.btx > $HOME/rilm/fehlermeldung_bms_${Date}.csv &&
@@ -228,6 +246,25 @@ catmandu convert MARC --type MARCMaker to CSV --fix $HOME/rilm/marc2bibtex/fix/v
 
 # Transformation der OENB-Daten von MARC nach BibTeX
 catmandu -I $HOME/lib convert MARC --type MARCMaker to BibTeX --fix $HOME/rilm/marc2bibtex/fix/marc2bibtex.fix --fix $HOME/rilm/marc2bibtex/fix/replace.fix < $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk >> $HOME/rilm/dmpbms_${Date}.btx &&
+
+# entry types in RILM tags ändern
+TARGET_FILE="$HOME/rilm/marc2bibtex/dmpbms_${DateOENB}.btx"
+
+sed -i -e "
+    s/^@b[cegs]{/@collection{/;
+    s/^@bf{/@book{/;
+    s/^@bm{/@book{/;
+    s/^@bp{/@periodical{/;
+    s/^@bt{/@book{/;
+    s/^@dd{/@dissertation{/;
+    s/^@dm{/@thesis{/;
+    s/^@er{/@electronicres{/;
+    s/^@mp{/@film{/;
+    s/^@mr{/@audio{/;
+    s/^@r[abcdefprstvx]{/@review{/;
+	s/^@a[bcdegs]{/@incollection{/;
+	s/^@ap{/@article{/
+" "$TARGET_FILE"
 
 # Prüfung der BibTeX-Daten und Ausgabe einer Fehlerdatei
 catmandu convert BibTeX to CSV --fields Type,Country,Note,Pages,Number,Volume,Year,Abstract,Abstractor,Series,Crossref,Ausschluss,PPN --fix $HOME/rilm/marc2bibtex/fix/fehlermeldung_oenb.fix < $HOME/rilm/dmpbms_${Date}.btx > $HOME/rilm/fehlermeldung_oenb_${DateOENB}.csv &&
