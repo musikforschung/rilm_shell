@@ -112,7 +112,7 @@ catmandu convert PICA --type plain to CSV --fix $HOME/rilm/pica2bibtex/fix/count
 catmandu -I $HOME/lib convert PICA --type plain to BibTeX --fix $HOME/rilm/pica2bibtex/fix/pica2bibtex.fix --fix $HOME/rilm/pica2bibtex/fix/replace.fix < $HOME/rilm/pica2bibtex/dmpbms_${Date}.pp 1> $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null &&
 
 # entry types in RILM tags ändern
-TARGET_FILE="$HOME/rilm/pica2bibtex/dmpbms_${Date}.btx"
+TARGET_FILE="$HOME/rilm/dmpbms_${Date}.btx"
 
 sed -i -e "
     s/^@b[cegs]{/@collection{/;
@@ -248,7 +248,7 @@ catmandu convert MARC --type MARCMaker to CSV --fix $HOME/rilm/marc2bibtex/fix/v
 catmandu -I $HOME/lib convert MARC --type MARCMaker to BibTeX --fix $HOME/rilm/marc2bibtex/fix/marc2bibtex.fix --fix $HOME/rilm/marc2bibtex/fix/replace.fix < $HOME/rilm/marc2bibtex/data/oenb_${DateOENB}.mrk >> $HOME/rilm/dmpbms_${Date}.btx &&
 
 # entry types in RILM tags ändern
-TARGET_FILE="$HOME/rilm/marc2bibtex/dmpbms_${DateOENB}.btx"
+TARGET_FILE="$HOME/rilm/dmpbms_${DateOENB}.btx"
 
 sed -i -e "
     s/^@b[cegs]{/@collection{/;
