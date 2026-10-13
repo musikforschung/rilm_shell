@@ -55,7 +55,7 @@ echo "
 Transformation der BMS-Daten nach BibTeX gestartet."
 
 # Löscht überflüssige Einträge im PICA-Abzug. 
-sed -i '/^nohup:/d' $HOME/rilm/dmpbms_${Date}.pp &&
+sed -i '/nohup:/d' $HOME/rilm/dmpbms_${Date}.pp &&
 
 # Alte Dateien Löschen oder Verschieben.
 if [ -f $HOME/rilm/dmpbms*.btx ]; then
@@ -296,7 +296,7 @@ Statistik der transformierten BMS-Daten:
 "
 cd $HOME/rilm/ &&
 
-catmandu convert BibTeX to Stat --fix $HOME/rilm/pica2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts,Zeitschriften < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/pica2bibtex/statistics/rilm_export_statistik_${Date}.csv &&
+catmandu convert BibTeX to Stat --fix $HOME/rilm/pica2bibtex/fix/stat.fix --fields Aufsätze,Monografien,Rezensionen,Abstracts,Zeitschriften,elektronische_Ressource,Ton_Film < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/pica2bibtex/statistics/rilm_export_statistik_${Date}.csv &&
 
 sleep 3s
 
@@ -304,7 +304,7 @@ sleep 3s
 echo "
 Statistik der transformierten ÖNB-Daten:
 "
-catmandu convert BibTeX to Stat --fix $HOME/rilm/marc2bibtex/fix/stat.fix --fields Aufsätze_Monografien,Rezensionen,Abstracts,Zeitschriften < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/marc2bibtex/statistics/rilm_export_statistik_${DateOENB}.csv &&
+catmandu convert BibTeX to Stat --fix $HOME/rilm/marc2bibtex/fix/stat.fix --fields Aufsätze,Monografien,Rezensionen,Abstracts,Zeitschriften,elektronische_Ressource,Ton_Film < $HOME/rilm/dmpbms_${Date}.btx 2>/dev/null | tee $HOME/rilm/marc2bibtex/statistics/rilm_export_statistik_${DateOENB}.csv &&
 
 sed -i "s/alma.local_field_980=RILM${DateOENB}/alma.local_field_980=RILMJJJJQQ/g" $HOME/rilm/marc2bibtex/fix/sru_sort_request.fix &&
 
